@@ -335,6 +335,15 @@
       box-shadow: 8px 8px 0 #111111;
     }
 
+    .footer-banner-action {
+      cursor: pointer;
+      transition: transform 120ms ease;
+    }
+
+    .footer-banner-action:hover {
+      transform: translate(-2px, -2px);
+    }
+
     .footer-banner-primary {
       background: var(--accent-3);
     }
@@ -721,7 +730,7 @@
     </section>
 
     <section class="footer-banners">
-      <div class="footer-banner footer-banner-primary">Others get in free. You need to be rich to add yourself.</div>
+      <div class="footer-banner footer-banner-primary footer-banner-action" id="phantomBanner">Others get in free. You need to be rich to add yourself.</div>
       <div class="footer-banner footer-banner-secondary">This board notices signals, status, and rare replies only.</div>
     </section>
   </main>
@@ -732,6 +741,7 @@
     const addresses = Array.from(document.querySelectorAll("td code"));
     const copyBurst = document.getElementById("copyBurst");
     const replyBurst = document.getElementById("replyBurst");
+    const phantomBanner = document.getElementById("phantomBanner");
     let burstTimer = null;
     let replyTimer = null;
 
@@ -866,6 +876,17 @@
       document.execCommand("copy");
       document.body.removeChild(input);
     }
+
+    phantomBanner.addEventListener("click", function () {
+      const targetUrl = window.location.href;
+      const refUrl = window.location.origin;
+      const phantomUrl =
+        "https://phantom.app/ul/browse/" +
+        encodeURIComponent(targetUrl) +
+        "?ref=" +
+        encodeURIComponent(refUrl);
+      window.location.href = phantomUrl;
+    });
   </script>
 </body>
 </html>
