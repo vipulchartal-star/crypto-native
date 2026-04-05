@@ -22,6 +22,12 @@ This is a presentation project, not a real on-chain analytics terminal. Some dis
 
 - `index.html` — main dashboard page
 
+## Tracking Repo
+
+Tracking source repo used for this project:
+
+- `https://github.com/vipulchartal-star/crypto-scraper.git`
+
 ## Local Preview
 
 From this directory:
@@ -55,6 +61,7 @@ Tracked wallet set currently shown in the page:
 ## Notes
 
 - The wallet list is based on the current page content in this repo.
+- Tracking/reference repo: `https://github.com/vipulchartal-star/crypto-scraper.git`
 - The custom wallet was added manually to the board.
 - Category labels, holder types, rates, ETAs, and dispatch states are UI effects unless backed by a real data source.
 
