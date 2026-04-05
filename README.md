@@ -21,6 +21,7 @@ This is a presentation project, not a real on-chain analytics terminal. Some dis
 ## Files
 
 - `index.html` — main dashboard page
+- `fetch_wallets.py` — fetch tracked wallet balances from Solana RPC and write JSON or CSV
 
 ## Tracking Repo
 
@@ -40,6 +41,34 @@ Then open:
 
 ```text
 http://127.0.0.1:8000/index.html
+```
+
+## Fetch Wallet Data
+
+The repo now includes a Python script that fetches balances for the tracked wallet set directly from Solana RPC.
+
+Default JSON output to stdout:
+
+```sh
+python3 fetch_wallets.py
+```
+
+Write JSON to a file:
+
+```sh
+python3 fetch_wallets.py --output wallets.json
+```
+
+Write CSV to a file:
+
+```sh
+python3 fetch_wallets.py --format csv --output wallets.csv
+```
+
+Use a custom RPC endpoint:
+
+```sh
+python3 fetch_wallets.py --rpc-url https://api.mainnet-beta.solana.com
 ```
 
 ## Wallet List
@@ -63,6 +92,7 @@ Tracked wallet set currently shown in the page:
 - The wallet list is based on the current page content in this repo.
 - Tracking/reference repo: `https://github.com/vipulchartal-star/crypto-scraper.git`
 - The custom wallet was added manually to the board.
+- `fetch_wallets.py` uses `getMultipleAccounts` against Solana RPC to fetch current lamport balances.
 - Category labels, holder types, rates, ETAs, and dispatch states are UI effects unless backed by a real data source.
 
 ## Next Ideas
