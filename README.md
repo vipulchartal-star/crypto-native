@@ -2,6 +2,9 @@
 
 Comic-style Solana wallet watchboard with a loud mobile-first layout, randomized activity stats, clickable address copy effects, and rare-dispatch interactions.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vipulchartal-star/crypto-native)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/vipulchartal-star/crypto-native)
+
 This project is a single-page static dashboard built in plain HTML, CSS, and JavaScript. It is designed to feel exaggerated and visual rather than neutral: thick borders, comic overlays, animated dispatch blocks, and a fake-live watchlist presentation.
 
 ## Project Summary
@@ -22,6 +25,7 @@ This is a presentation project, not a real on-chain analytics terminal. Some dis
 
 - `index.html` — main dashboard page
 - `fetch_wallets.py` — fetch tracked wallet balances from Solana RPC and write JSON or CSV
+- `render.yaml` — Render Blueprint config for one-click hosting
 
 ## Tracking Repo
 
@@ -42,6 +46,11 @@ Then open:
 ```text
 http://127.0.0.1:8000/index.html
 ```
+
+## One-Click Hosting
+
+- Vercel: use the `Deploy with Vercel` button above to clone and host the repo.
+- Render: use the `Deploy to Render` button above. The included `render.yaml` sets this project up as a static site.
 
 ## Fetch Wallet Data
 
