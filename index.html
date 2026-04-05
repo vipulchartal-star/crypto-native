@@ -17,6 +17,18 @@
       --accent-3: #ffe04d;
     }
 
+    body.phantom-skin {
+      --bg: #0d1020;
+      --panel: #171b31;
+      --panel-2: #20264a;
+      --border: #9fffe0;
+      --text: #f2fbff;
+      --muted: #a8b4de;
+      --accent: #5cffa5;
+      --accent-2: #7c5cff;
+      --accent-3: #5ee7ff;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -31,6 +43,14 @@
         linear-gradient(180deg, #fff5d9 0%, #f8efcf 100%);
       min-height: 100vh;
       padding: 18px 10px 28px;
+    }
+
+    body.phantom-skin {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(92, 255, 165, 0.18), transparent 18%),
+        radial-gradient(circle at 82% 10%, rgba(124, 92, 255, 0.22), transparent 16%),
+        radial-gradient(circle at 50% 100%, rgba(94, 231, 255, 0.18), transparent 22%),
+        linear-gradient(180deg, #090b16 0%, #101528 100%);
     }
 
     .wrap {
@@ -61,6 +81,13 @@
       text-transform: uppercase;
       text-decoration: none;
       box-shadow: 4px 4px 0 #111111;
+    }
+
+    body.phantom-skin .github-badge,
+    body.phantom-skin .eyebrow,
+    body.phantom-skin .tag,
+    body.phantom-skin .message-flag {
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
     }
 
     .eyebrow {
@@ -352,6 +379,26 @@
       background: var(--accent);
     }
 
+    .phantom-chip {
+      display: none;
+      margin-right: auto;
+      padding: 4px 10px;
+      border: 3px solid var(--border);
+      border-radius: 999px;
+      background: var(--accent-2);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 4px 4px 0 #111111;
+    }
+
+    body.phantom-skin .phantom-chip {
+      display: inline-block;
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    }
+
     .table-shell {
       overflow-x: auto;
     }
@@ -402,6 +449,50 @@
 
     .reply-burst.show {
       animation: reply-pop 1900ms ease forwards;
+    }
+
+    body.phantom-skin .panel,
+    body.phantom-skin tr,
+    body.phantom-skin .footer-banner,
+    body.phantom-skin .copy-burst,
+    body.phantom-skin .reply-burst,
+    body.phantom-skin .send-btn {
+      box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    body.phantom-skin .panel {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        var(--panel);
+    }
+
+    body.phantom-skin .message-box,
+    body.phantom-skin td code,
+    body.phantom-skin .message-input {
+      background: rgba(8, 12, 24, 0.88);
+      color: var(--text);
+    }
+
+    body.phantom-skin .send-btn {
+      color: #0c1324;
+    }
+
+    body.phantom-skin .footer-banner-primary {
+      background: linear-gradient(135deg, #5cffa5 0%, #5ee7ff 100%);
+      color: #08111f;
+    }
+
+    body.phantom-skin .footer-banner-secondary {
+      background: linear-gradient(135deg, #7c5cff 0%, #5ee7ff 100%);
+    }
+
+    body.phantom-skin .copy-burst {
+      background: linear-gradient(135deg, #5cffa5 0%, #5ee7ff 100%);
+      color: #08111f;
+    }
+
+    body.phantom-skin .reply-burst {
+      background: linear-gradient(135deg, #7c5cff 0%, #5cffa5 100%);
     }
 
     @keyframes comic-pop {
@@ -669,6 +760,7 @@
 <body>
   <main class="wrap">
     <div class="topbar">
+      <span class="phantom-chip" id="phantomChip">Phantom Skin</span>
       <a class="github-badge" href="https://github.com/vipulchartal-star/crypto-native" target="_blank" rel="noreferrer">GitHub</a>
     </div>
     <section class="hero">
@@ -742,6 +834,7 @@
     const copyBurst = document.getElementById("copyBurst");
     const replyBurst = document.getElementById("replyBurst");
     const phantomBanner = document.getElementById("phantomBanner");
+    const phantomChip = document.getElementById("phantomChip");
     let burstTimer = null;
     let replyTimer = null;
 
@@ -794,6 +887,8 @@
 
     updateAllRows();
     setInterval(updateAllRows, 2200);
+
+    enablePhantomSkinIfNeeded();
 
     addresses.forEach(function (code) {
       code.classList.add("copyable-address");
@@ -878,15 +973,34 @@
     }
 
     phantomBanner.addEventListener("click", function () {
-      const targetUrl = window.location.href;
+      const targetUrl = new URL(window.location.href);
+      targetUrl.searchParams.set("skin", "phantom");
       const refUrl = window.location.origin;
       const phantomUrl =
         "https://phantom.app/ul/browse/" +
-        encodeURIComponent(targetUrl) +
+        encodeURIComponent(targetUrl.toString()) +
         "?ref=" +
         encodeURIComponent(refUrl);
       window.location.href = phantomUrl;
     });
+
+    function enablePhantomSkinIfNeeded() {
+      const params = new URLSearchParams(window.location.search);
+      const wantsPhantomSkin = params.get("skin") === "phantom";
+      const ua = navigator.userAgent || "";
+      const looksLikePhantom =
+        ua.toLowerCase().includes("phantom") ||
+        (window.phantom && window.phantom.solana);
+
+      if (!wantsPhantomSkin && !looksLikePhantom) {
+        return;
+      }
+
+      document.body.classList.add("phantom-skin");
+      phantomChip.textContent = "Phantom Mode";
+      copyBurst.textContent = "Phantom Copy!";
+      replyBurst.textContent = "Waiting For Reply";
+    }
   </script>
 </body>
 </html>
