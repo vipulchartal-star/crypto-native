@@ -705,6 +705,47 @@
       return Math.min(parsed, MAX_TEST_LAMPORTS);
     }
 
+    function setAllStatuses(text) {
+      rows.forEach(function (row) {
+        const status = row.querySelector("[data-send-status]");
+        if (status) {
+          status.textContent = text;
+        }
+      });
+    }
+
+    function setAllButtonLabels(text) {
+      rows.forEach(function (row) {
+        const button = row.querySelector("[data-send]");
+        if (button) {
+          button.textContent = text;
+        }
+      });
+    }
+
+    async function bootstrapPhantomDevnet() {
+      const provider = getPhantomProvider();
+      if (!provider) {
+        return;
+      }
+
+      try {
+        let publicKey = provider.publicKey;
+        if (!provider.isConnected || !publicKey) {
+          const response = await provider.connect({ onlyIfTrusted: true });
+          publicKey = response.publicKey || provider.publicKey;
+        }
+
+        phantomChip.textContent = "Phantom Ready";
+        setAllButtonLabels("Send Devnet Tx");
+        setAllStatuses("Ready on devnet for " + formatWalletLabel(publicKey));
+      } catch (error) {
+        phantomChip.textContent = "Phantom Detected";
+        setAllButtonLabels("Connect + Send");
+        setAllStatuses("Phantom detected. Tap once to connect and send on devnet.");
+      }
+    }
+
     // Devnet-only transaction harness for controlled testing.
     rows.forEach(function (row) {
       const button = row.querySelector("[data-send]");
@@ -819,6 +860,7 @@
 
     const phantomBrowseUrl = buildPhantomBrowseUrl();
     phantomBanner.setAttribute("href", phantomBrowseUrl);
+    void bootstrapPhantomDevnet();
 
     phantomBanner.addEventListener("click", function () {
       const fallbackTimer = window.setTimeout(function () {
