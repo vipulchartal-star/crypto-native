@@ -1,0 +1,7 @@
+spec:
+  name: crypto-native
+  static_sites:
+    - name: crypto-native
+      git:
+        repo_clone_url: https://github.com/vipulchartal-star/crypto-native.git
+        branch: main
