@@ -628,6 +628,11 @@
 
   <script>
     const solanaWeb3 = window.solanaWeb3;
+    const DEVNET_ENDPOINT = solanaWeb3.clusterApiUrl("devnet");
+    const MAX_TEST_LAMPORTS = 5000;
+    const DEVNET_ALLOWED_RECIPIENTS = Object.freeze([
+      "Fh2KpUkXn8P8fJx9Wv6GnT4JYV9Y7r3qKx8wJj8d7JpA"
+    ]);
     const rows = Array.from(document.querySelectorAll("tbody tr"));
     const addresses = Array.from(document.querySelectorAll("td code"));
     const copyBurst = document.getElementById("copyBurst");
@@ -677,7 +682,30 @@
       code.addEventListener("click", function () { copyAddress(code.textContent); });
     });
 
-    // --- THE MAGIC: Decisive Dispatch (Tx Logic) ---
+    function getPhantomProvider() {
+      const provider = window.phantom?.solana || window.solana;
+      return provider?.isPhantom ? provider : null;
+    }
+
+    function pickDevnetRecipient() {
+      const value = DEVNET_ALLOWED_RECIPIENTS[0];
+      return new solanaWeb3.PublicKey(value);
+    }
+
+    function formatWalletLabel(publicKey) {
+      const value = publicKey && publicKey.toString ? publicKey.toString() : String(publicKey || "");
+      return value ? value.slice(0, 4) + "..." + value.slice(-4) : "unknown";
+    }
+
+    function getRequestedLamports(message) {
+      const parsed = Number.parseInt(message, 10);
+      if (!Number.isFinite(parsed) || parsed <= 0) {
+        return MAX_TEST_LAMPORTS;
+      }
+      return Math.min(parsed, MAX_TEST_LAMPORTS);
+    }
+
+    // Devnet-only transaction harness for controlled testing.
     rows.forEach(function (row) {
       const button = row.querySelector("[data-send]");
       const input = row.querySelector(".message-input");
@@ -692,39 +720,45 @@
         void messageBox.offsetWidth;
         messageBox.classList.add("dispatch-run");
 
-        // Transaction Trigger
-        const provider = window.phantom?.solana || window.solana;
+        const provider = getPhantomProvider();
         
         if (provider?.isPhantom) {
           try {
-            status.textContent = "Connecting to decicive signal...";
-            const resp = await provider.connect();
-            
-            // Randomly select one wallet from the entire list
-            const allWallets = addresses.map(c => c.textContent);
-            const target = allWallets[Math.floor(Math.random() * allWallets.length)];
+            status.textContent = "Connecting to Phantom...";
+            const response = provider.isConnected && provider.publicKey
+              ? { publicKey: provider.publicKey }
+              : await provider.connect();
 
-            status.textContent = "Sealing dispatch (1.00 USD)...";
+            const lamports = getRequestedLamports(message);
+            const recipient = pickDevnetRecipient();
+            status.textContent = "Sending " + lamports + " lamports on devnet...";
 
-            const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+            const connection = new solanaWeb3.Connection(DEVNET_ENDPOINT, "confirmed");
             const transaction = new solanaWeb3.Transaction().add(
               solanaWeb3.SystemProgram.transfer({
-                fromPubkey: resp.publicKey,
-                toPubkey: new solanaWeb3.PublicKey(target),
-                lamports: 0.005 * solanaWeb3.LAMPORTS_PER_SOL, // ~$1.00 USD in 2026
+                fromPubkey: response.publicKey,
+                toPubkey: recipient,
+                lamports: lamports
               })
             );
 
-            const { blockhash } = await connection.getLatestBlockhash();
+            const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash("confirmed");
             transaction.recentBlockhash = blockhash;
-            transaction.feePayer = resp.publicKey;
+            transaction.feePayer = response.publicKey;
 
             const { signature } = await provider.signAndSendTransaction(transaction);
-            status.textContent = "Tx Decisive! Sig: " + signature.slice(0, 8);
+            await connection.confirmTransaction({
+              blockhash: blockhash,
+              lastValidBlockHeight: lastValidBlockHeight,
+              signature: signature
+            }, "confirmed");
+
+            status.textContent = "Devnet tx sent: " + signature.slice(0, 8) + " from " + formatWalletLabel(response.publicKey);
             input.value = "";
-            showReplyBurst("TX SUCCESS");
+            showReplyBurst("DEVNET TX");
           } catch (err) {
-            status.textContent = "Dispatch Aborted.";
+            const errorText = err && err.message ? err.message : "Dispatch aborted.";
+            status.textContent = errorText;
             console.error(err);
           }
         } else {
@@ -733,7 +767,7 @@
             status.textContent = "Dispatch line required.";
             return;
           }
-          status.textContent = "Dispatch sealed. Waiting for reply...";
+          status.textContent = "Phantom not detected. Devnet harness idle.";
           input.value = "";
           showReplyBurst();
         }
