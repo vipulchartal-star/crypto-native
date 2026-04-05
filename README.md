@@ -4,6 +4,7 @@ Comic-style Solana wallet watchboard with a loud mobile-first layout, randomized
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vipulchartal-star/crypto-native)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/vipulchartal-star/crypto-native)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/vipulchartal-star/crypto-native)
 
 This project is a single-page static dashboard built in plain HTML, CSS, and JavaScript. It is designed to feel exaggerated and visual rather than neutral: thick borders, comic overlays, animated dispatch blocks, and a fake-live watchlist presentation.
 
@@ -25,6 +26,7 @@ This is a presentation project, not a real on-chain analytics terminal. Some dis
 
 - `index.html` — main dashboard page
 - `fetch_wallets.py` — fetch tracked wallet balances from Solana RPC and write JSON or CSV
+- `netlify.toml` — Netlify publish config
 - `render.yaml` — Render Blueprint config for one-click hosting
 
 ## Tracking Repo
@@ -51,6 +53,8 @@ http://127.0.0.1:8000/index.html
 
 - Vercel: use the `Deploy with Vercel` button above to clone and host the repo.
 - Render: use the `Deploy to Render` button above. The included `render.yaml` sets this project up as a static site.
+- Netlify: use the `Deploy to Netlify` button above. The included `netlify.toml` publishes the project root as a static site.
+- Railway: Railway supports template-based deploy flows, but it requires a published Railway template instead of a direct repo button for this setup.
 
 ## Fetch Wallet Data
 
