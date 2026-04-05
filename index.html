@@ -618,7 +618,7 @@
     </section>
 
     <section class="footer-banners">
-      <div class="footer-banner footer-banner-primary footer-banner-action" id="phantomBanner">Others get in free. Open in Phantom to activate decicive signal.</div>
+      <a class="footer-banner footer-banner-primary footer-banner-action" id="phantomBanner" href="https://phantom.app/download" rel="noreferrer">Others get in free. Open in Phantom to activate decicive signal.</a>
       <div class="footer-banner footer-banner-secondary">This board notices signals, status, and rare replies only.</div>
     </section>
   </main>
@@ -804,10 +804,35 @@
       }
     }
 
-    phantomBanner.addEventListener("click", function () {
+    function buildPhantomBrowseUrl() {
       const targetUrl = new URL(window.location.href);
       targetUrl.searchParams.set("skin", "phantom");
-      window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(targetUrl.toString());
+      const referrer = window.location.origin && window.location.origin !== "null"
+        ? window.location.origin
+        : targetUrl.origin;
+
+      return "https://phantom.app/ul/browse/" +
+        encodeURIComponent(targetUrl.toString()) +
+        "?ref=" +
+        encodeURIComponent(referrer);
+    }
+
+    const phantomBrowseUrl = buildPhantomBrowseUrl();
+    phantomBanner.setAttribute("href", phantomBrowseUrl);
+
+    phantomBanner.addEventListener("click", function () {
+      const fallbackTimer = window.setTimeout(function () {
+        if (document.visibilityState === "visible") {
+          window.location.href = "https://phantom.app/download";
+        }
+      }, 1400);
+
+      window.addEventListener("visibilitychange", function clearFallback() {
+        if (document.visibilityState === "hidden") {
+          window.clearTimeout(fallbackTimer);
+          window.removeEventListener("visibilitychange", clearFallback);
+        }
+      });
     });
 
     function enablePhantomSkinIfNeeded() {
