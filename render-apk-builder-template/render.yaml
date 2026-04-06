@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: termux-apk-builder
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    autoDeploy: false

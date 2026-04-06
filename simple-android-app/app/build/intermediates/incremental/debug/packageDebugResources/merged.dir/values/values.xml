@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <string name="app_name">Stupid App Generator</string>
+    <string name="app_name_suffix">Generator</string>
+    <string name="default_idea">make an app that tracks how dramatic my cat is each hour</string>
+    <string name="fallback_app_name">Bad Idea Builder</string>
+    <string name="generate_button">Generate My App</string>
+    <string name="generated_features">Features:
+- live feed dedicated to %1$s
+- push alerts whenever %2$s becomes more dramatic
+- leaderboard that ranks users by how much they interact with %3$s</string>
+    <string name="generated_status">App concept generated</string>
+    <string name="generated_summary">This app turns “%1$s” into a fully unserious Android concept with chaotic UX and suspicious confidence.</string>
+    <string name="idea_chip_four">Excuse Market</string>
+    <string name="idea_chip_four_value">make an app where users can long or short their friend\'s excuses</string>
+    <string name="idea_chip_one">Pigeon CEO</string>
+    <string name="idea_chip_one_value">make an app that rates pigeons like startup founders</string>
+    <string name="idea_chip_three">Cat Drama</string>
+    <string name="idea_chip_three_value">make an app that tracks how dramatic my cat is each hour</string>
+    <string name="idea_chip_two">Potato Signals</string>
+    <string name="idea_chip_two_value">make an app that gives fake crypto signals for potatoes</string>
+    <string name="idea_hint">Example: make an app that ranks excuses like crypto candles</string>
+    <string name="input_label">Your bad idea</string>
+    <string name="result_features_default">Features will appear here:
+- chaotic onboarding
+- fake monetization
+- one completely unnecessary leaderboard</string>
+    <string name="result_name_default">Your broken masterpiece appears here</string>
+    <string name="result_status_generated">App concept generated</string>
+    <string name="result_status_idle">Waiting for a terrible idea</string>
+    <string name="result_summary_default">Describe something stupid above, then tap Generate My App.</string>
+    <string name="subtitle_text">Turn bad app ideas into even worse app concepts.</string>
+    <string name="title_text">Stupid App Generator</string>
+    <string name="wallet_label">Ridiculous Android Studio</string>
+    <style name="Theme.SimpleAndroidApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor" ns1:targetApi="l">#09111C</item>
+        <item name="android:navigationBarColor">#09111C</item>
+    </style>
+</resources>

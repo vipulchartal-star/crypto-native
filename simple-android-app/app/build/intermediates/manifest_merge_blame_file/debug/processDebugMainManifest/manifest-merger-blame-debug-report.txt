@@ -1,0 +1,181 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.simpleandroidapp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.CAMERA" />
+11-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:3:5-65
+11-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:3:22-62
+12
+13    <permission
+13-->[androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/b0836c0eb4b896248d7016f485932b80/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+14        android:name="com.example.simpleandroidapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+14-->[androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/b0836c0eb4b896248d7016f485932b80/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+15        android:protectionLevel="signature" />
+15-->[androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/b0836c0eb4b896248d7016f485932b80/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+16
+17    <uses-permission android:name="com.example.simpleandroidapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
+17-->[androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/b0836c0eb4b896248d7016f485932b80/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+17-->[androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/b0836c0eb4b896248d7016f485932b80/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+18    <uses-feature
+18-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:25:5-27:36
+19        android:name="android.hardware.camera"
+19-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:26:9-47
+20        android:required="false" />
+20-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:27:9-33
+21    <uses-feature
+21-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:28:5-30:36
+22        android:name="android.hardware.camera.front"
+22-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:29:9-53
+23        android:required="false" /> <!-- TODO replace above two with next line after Android 4.2 -->
+23-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:30:9-33
+24    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+25    <uses-feature
+25-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:33:5-35:36
+26        android:name="android.hardware.camera.autofocus"
+26-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:34:9-57
+27        android:required="false" />
+27-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:35:9-33
+28    <uses-feature
+28-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:36:5-38:36
+29        android:name="android.hardware.camera.flash"
+29-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:37:9-53
+30        android:required="false" />
+30-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:38:9-33
+31    <uses-feature
+31-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:39:5-41:36
+32        android:name="android.hardware.screen.landscape"
+32-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:40:9-57
+33        android:required="false" />
+33-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:41:9-33
+34    <uses-feature
+34-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:42:5-44:36
+35        android:name="android.hardware.wifi"
+35-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:43:9-45
+36        android:required="false" />
+36-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:44:9-33
+37
+38    <application
+38-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:5:5-21:19
+39        android:allowBackup="true"
+39-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:6:9-35
+40        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+40-->[androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/b0836c0eb4b896248d7016f485932b80/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+41        android:debuggable="true"
+42        android:extractNativeLibs="false"
+43        android:icon="@mipmap/ic_launcher"
+43-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:7:9-43
+44        android:label="@string/app_name"
+44-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:8:9-41
+45        android:roundIcon="@mipmap/ic_launcher_round"
+45-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:9:9-54
+46        android:supportsRtl="true"
+46-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:10:9-35
+47        android:theme="@style/Theme.SimpleAndroidApp" >
+47-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:11:9-54
+48        <activity
+48-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:12:9-20:20
+49            android:name="com.example.simpleandroidapp.MainActivity"
+49-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:13:13-41
+50            android:exported="true" >
+50-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:14:13-36
+51            <intent-filter>
+51-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:15:13-19:29
+52                <action android:name="android.intent.action.MAIN" />
+52-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:16:17-69
+52-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:16:25-66
+53
+54                <category android:name="android.intent.category.LAUNCHER" />
+54-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:18:17-77
+54-->/data/data/com.termux/files/home/cking/simple-android-app/app/src/main/AndroidManifest.xml:18:27-74
+55            </intent-filter>
+56        </activity>
+57
+58        <provider
+58-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+59            android:name="androidx.startup.InitializationProvider"
+59-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+60            android:authorities="com.example.simpleandroidapp.androidx-startup"
+60-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+61            android:exported="false" >
+61-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+62            <meta-data
+62-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+63                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+63-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+64                android:value="androidx.startup" />
+64-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/79f1975ff5a4f648e972894e67b77b02/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+65            <meta-data
+65-->[androidx.lifecycle:lifecycle-process:2.6.2] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/f4d2448823ff2d61e300c3810e44d427/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+66                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+66-->[androidx.lifecycle:lifecycle-process:2.6.2] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/f4d2448823ff2d61e300c3810e44d427/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+67                android:value="androidx.startup" />
+67-->[androidx.lifecycle:lifecycle-process:2.6.2] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/f4d2448823ff2d61e300c3810e44d427/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+68            <meta-data
+68-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+69                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+69-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+70                android:value="androidx.startup" />
+70-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+71        </provider>
+72
+73        <receiver
+73-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+74            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+74-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+75            android:directBootAware="false"
+75-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+76            android:enabled="true"
+76-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+77            android:exported="true"
+77-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+78            android:permission="android.permission.DUMP" >
+78-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+79            <intent-filter>
+79-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+80                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+80-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+80-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+81            </intent-filter>
+82            <intent-filter>
+82-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+83                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+83-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+83-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+84            </intent-filter>
+85            <intent-filter>
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+86                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+86-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+86-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+87            </intent-filter>
+88            <intent-filter>
+88-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+89                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+89-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+89-->[androidx.profileinstaller:profileinstaller:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/9a4d8369c5400c10aed9b120d4594880/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+90            </intent-filter>
+91        </receiver>
+92
+93        <activity
+93-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:47:9-53:63
+94            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+94-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:48:13-74
+95            android:clearTaskOnLaunch="true"
+95-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:49:13-45
+96            android:screenOrientation="sensorLandscape"
+96-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:50:13-56
+97            android:stateNotNeeded="true"
+97-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:51:13-42
+98            android:theme="@style/zxing_CaptureTheme"
+98-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:52:13-54
+99            android:windowSoftInputMode="stateAlwaysHidden" />
+99-->[com.journeyapps:zxing-android-embedded:4.3.0] /data/data/com.termux/files/home/.gradle/caches/9.4.1/transforms/8441ae666427a4a1cbc83cc8dff24c09/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:53:13-60
+100    </application>
+101
+102</manifest>

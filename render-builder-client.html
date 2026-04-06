@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stupid App Generator</title>
+  <style>
+    :root {
+      --bg: #f4efe4;
+      --ink: #1f1a17;
+      --paper: #fffaf1;
+      --accent: #ff7a00;
+      --accent-2: #00a6a6;
+      --danger: #c2410c;
+      --border: #2f241d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255,122,0,.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(0,166,166,.18), transparent 24%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      padding: 24px;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 3px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 10px 10px 0 #201913;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 56px);
+      line-height: .95;
+      text-transform: uppercase;
+    }
+    .sub {
+      margin-top: 10px;
+      font-size: 18px;
+      max-width: 680px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .panel {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      font: inherit;
+      background: #fffdf8;
+      color: var(--ink);
+    }
+    textarea {
+      min-height: 190px;
+      resize: vertical;
+    }
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    button, a.linkbtn {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      font: inherit;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+    }
+    button.primary { background: var(--accent); }
+    button.secondary { background: var(--accent-2); }
+    button:disabled { opacity: .6; cursor: wait; }
+    .status {
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .ok { color: #0f766e; }
+    .bad { color: var(--danger); }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .idea-chip {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      background: #fff4df;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 8px 8px 0;
+      cursor: pointer;
+    }
+    @media (max-width: 780px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Stupid App Generator</h1>
+    <p class="sub">Type a ridiculous app idea, send it to your Render APK builder, and get back a downloadable Android build. This page assumes your backend accepts JSON and starts a generate-and-build job.</p>
+
+    <div style="margin-top:16px">
+      <span class="idea-chip" data-idea="make an app that rates pigeons like startup founders">Pigeon Founder Rater</span>
+      <span class="idea-chip" data-idea="make an app that turns grocery lists into boss battle quests">Grocery Boss Battles</span>
+      <span class="idea-chip" data-idea="make an app that tracks how dramatic my cat is each hour">Cat Drama Meter</span>
+      <span class="idea-chip" data-idea="make an app that gives fake crypto signals for potatoes">Potato Signals</span>
+    </div>
+
+    <section class="grid">
+      <div class="panel stack">
+        <div>
+          <label for="baseUrl">Render Builder URL</label>
+          <input id="baseUrl" type="url" value="https://your-builder.onrender.com" placeholder="https://your-builder.onrender.com">
+        </div>
+
+        <div>
+          <label for="projectName">Project Name</label>
+          <input id="projectName" type="text" value="stupid-app" placeholder="stupid-app">
+        </div>
+
+        <div>
+          <label for="theme">App Style</label>
+          <select id="theme">
+            <option value="comic">Comic</option>
+            <option value="clean">Clean</option>
+            <option value="chaotic">Chaotic</option>
+            <option value="wallet">Wallet-ish</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="idea">Stupid App Idea</label>
+          <textarea id="idea" placeholder="Example: make an app where users can long or short their friend's excuses in real time"></textarea>
+        </div>
+
+        <div class="actions">
+          <button id="generateBtn" class="primary">Generate + Build</button>
+          <button id="latestBtn" class="secondary">Get Latest APK</button>
+          <a id="downloadLink" class="linkbtn" href="#" target="_blank" rel="noreferrer" style="display:none">Download APK</a>
+        </div>
+      </div>
+
+      <div class="panel stack">
+        <div>
+          <div id="status" class="status">Idle</div>
+        </div>
+
+        <div>
+          <label>Request Payload</label>
+          <pre id="payloadBox">No payload sent yet.</pre>
+        </div>
+
+        <div>
+          <label>Server Response</label>
+          <pre id="responseBox">No response yet.</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const baseUrlInput = document.getElementById("baseUrl");
+    const projectNameInput = document.getElementById("projectName");
+    const themeInput = document.getElementById("theme");
+    const ideaInput = document.getElementById("idea");
+    const generateBtn = document.getElementById("generateBtn");
+    const latestBtn = document.getElementById("latestBtn");
+    const statusEl = document.getElementById("status");
+    const payloadBox = document.getElementById("payloadBox");
+    const responseBox = document.getElementById("responseBox");
+    const downloadLink = document.getElementById("downloadLink");
+
+    document.querySelectorAll(".idea-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        ideaInput.value = chip.dataset.idea || "";
+      });
+    });
+
+    function normalizeBaseUrl() {
+      return baseUrlInput.value.trim().replace(/\/+$/, "");
+    }
+
+    function setStatus(text, cls = "") {
+      statusEl.textContent = text;
+      statusEl.className = `status ${cls}`.trim();
+    }
+
+    function showDownload(url) {
+      if (!url) {
+        downloadLink.style.display = "none";
+        downloadLink.removeAttribute("href");
+        return;
+      }
+      downloadLink.href = url;
+      downloadLink.style.display = "inline-block";
+    }
+
+    function pretty(value) {
+      return typeof value === "string" ? value : JSON.stringify(value, null, 2);
+    }
+
+    async function request(path, options = {}) {
+      const response = await fetch(`${normalizeBaseUrl()}${path}`, options);
+      const text = await response.text();
+      let payload;
+      try {
+        payload = JSON.parse(text);
+      } catch {
+        payload = { raw: text };
+      }
+      if (!response.ok) {
+        const error = new Error(`HTTP ${response.status}`);
+        error.payload = payload;
+        throw error;
+      }
+      return payload;
+    }
+
+    async function handleGenerate() {
+      const baseUrl = normalizeBaseUrl();
+      const idea = ideaInput.value.trim();
+      if (!baseUrl) {
+        setStatus("Missing builder URL", "bad");
+        return;
+      }
+      if (!idea) {
+        setStatus("Type an app idea first", "bad");
+        return;
+      }
+
+      const payload = {
+        project_name: projectNameInput.value.trim() || "stupid-app",
+        idea,
+        theme: themeInput.value,
+        platform: "android",
+        output: "apk"
+      };
+
+      payloadBox.textContent = pretty(payload);
+      responseBox.textContent = "Waiting for builder...";
+      showDownload("");
+      setStatus("Generating and building...", "");
+      generateBtn.disabled = true;
+      latestBtn.disabled = true;
+
+      try {
+        const result = await request("/build", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        responseBox.textContent = pretty(result);
+        showDownload(result.download_url);
+        setStatus("Build complete", "ok");
+      } catch (error) {
+        responseBox.textContent = pretty(error.payload || { error: error.message });
+        setStatus("Build failed", "bad");
+      } finally {
+        generateBtn.disabled = false;
+        latestBtn.disabled = false;
+      }
+    }
+
+    async function handleLatest() {
+      const baseUrl = normalizeBaseUrl();
+      if (!baseUrl) {
+        setStatus("Missing builder URL", "bad");
+        return;
+      }
+
+      responseBox.textContent = "Fetching latest artifact...";
+      showDownload("");
+      setStatus("Checking latest build...", "");
+      generateBtn.disabled = true;
+      latestBtn.disabled = true;
+
+      try {
+        const result = await request("/latest");
+        responseBox.textContent = pretty(result);
+        showDownload(result.download_url);
+        setStatus("Latest APK loaded", "ok");
+      } catch (error) {
+        responseBox.textContent = pretty(error.payload || { error: error.message });
+        setStatus("No latest APK", "bad");
+      } finally {
+        generateBtn.disabled = false;
+        latestBtn.disabled = false;
+      }
+    }
+
+    generateBtn.addEventListener("click", handleGenerate);
+    latestBtn.addEventListener("click", handleLatest);
+  </script>
+</body>
+</html>
